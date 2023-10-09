@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SapperAndroid</string>
+    <string name="textLogo">Sapper</string>
+    <string-array name="textsSpinnerVariants">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+    <string name="textChooseLevel">choose level</string>
+    <string name="textPlayButton">Play!</string>
 </resources>
