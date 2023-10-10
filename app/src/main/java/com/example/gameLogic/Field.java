@@ -25,8 +25,8 @@ public class Field {
         while (i < numMines) {//We don't want mines to overlap, so while loop
             int x = generateInt(0, WIDTH - 1);
             int y = generateInt(0, HEIGHT - 1);
-            if (field[y][x].getInnerType() == InnerType.BOMB) continue;
-            field[y][x].setInnerType(InnerType.BOMB);
+            if (field[y][x].getInner() == Type.BOMB) continue;
+            field[y][x].setInner(Type.BOMB);
             i++;
         }
     }

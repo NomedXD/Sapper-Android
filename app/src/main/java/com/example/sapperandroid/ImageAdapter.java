@@ -19,6 +19,7 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     public	Integer[] mThumbIds = new Integer[200];
+    public ImageView imageView;
 
     public ImageAdapter(Context c, int imgWidth, int imgHeight) {
         this.imgHeight = imgHeight;
@@ -48,7 +49,6 @@ public class ImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
@@ -63,18 +63,23 @@ public class ImageAdapter extends BaseAdapter {
         return imageView;
     }
 
+    public void setGridCellImg(int pos, Integer imgId) {
+        mThumbIds[pos] = imgId;
+        this.notifyDataSetChanged();
+    }
+
     public void setField(Field field, boolean isHorizontal) {
         List<Integer> imgRefs = new ArrayList<>();
         if (!isHorizontal) {
             for (int i = 0; i < field.getHEIGHT(); ++i) {
                 for (int j = 0; j < field.getWIDTH(); ++j) {
-                    imgRefs.add(field.getCell(i, j).getInnerType().getImgReference());
+                    imgRefs.add(field.getCell(i, j).getCellType().getImgReference());
                 }
             }
         } else {
             for (int i = field.getWIDTH() - 1; i >= 0; --i) {
                 for (int j = 0; j < field.getHEIGHT(); ++j) {
-                    imgRefs.add(field.getCell(j, i).getInnerType().getImgReference());
+                    imgRefs.add(field.getCell(j, i).getCellType().getImgReference());
                 }
             }
         }
