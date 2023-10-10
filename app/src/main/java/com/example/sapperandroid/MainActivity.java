@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.commonResource.CommonVars;
+
 public class MainActivity extends AppCompatActivity {
     private Spinner levelSpinner;
     private Button playButton;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), PlayFieldActivity.class);
-            intent.putExtra("levelNum", levelSpinner.getSelectedItemId());
+            CommonVars.difficulty = levelSpinner.getSelectedItemId();
             startActivity(intent);
         });
     }

@@ -7,10 +7,18 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.gameLogic.Field;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ImageAdapter extends BaseAdapter {
     private final Context mContext;
     private final int imgWidth;
     private final int imgHeight;
+
+    // references to our images
+    public	Integer[] mThumbIds = new Integer[200];
 
     public ImageAdapter(Context c, int imgWidth, int imgHeight) {
         this.imgHeight = imgHeight;
@@ -55,75 +63,21 @@ public class ImageAdapter extends BaseAdapter {
         return imageView;
     }
 
-    // references to our images
-    public	Integer[] mThumbIds = { R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1,
-            R.drawable.num1, R.drawable.num1, R.drawable.num1};
+    public void setField(Field field, boolean isHorizontal) {
+        List<Integer> imgRefs = new ArrayList<>();
+        if (!isHorizontal) {
+            for (int i = 0; i < field.getHEIGHT(); ++i) {
+                for (int j = 0; j < field.getWIDTH(); ++j) {
+                    imgRefs.add(field.getCell(i, j).getInnerType().getImgReference());
+                }
+            }
+        } else {
+            for (int i = field.getWIDTH() - 1; i >= 0; --i) {
+                for (int j = 0; j < field.getHEIGHT(); ++j) {
+                    imgRefs.add(field.getCell(j, i).getInnerType().getImgReference());
+                }
+            }
+        }
+        mThumbIds = imgRefs.toArray(mThumbIds);
+    }
 }
