@@ -5,13 +5,71 @@ public class Field {
     private final int WIDTH = 10;
     private final int HEIGHT = 20;
 
-
     public Field() {
         field = new Cell[HEIGHT][WIDTH];
     }
 
     private int generateInt(int min, int max) {
-        return (int)( Math.random() * (max - min + 1) + min);
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
+
+    private boolean outBounds(int x, int y) {
+        return (x < 0 || x > WIDTH - 1) || (y < 0 || y > HEIGHT - 1);
+    }
+
+    private int calcBombsNear(int x, int y) {
+        /*
+        if (outBounds(x, y)) return 0;
+        int result = 0;
+        for (int i = y - 1; i <= y + 1; ++i) {
+            for (int j = x - 1; j <= x + 1; ++j) {
+                    if (outBounds(j, i) || i == y && j == x) continue;
+                    if (field[i][j].getInner() == Type.BOMB) {
+                        ++result;
+                }
+            }
+        }
+        return result;
+        */
+        if(outBounds(x,y))return 0;
+        int i=0;
+        for (int offsetX=-1; offsetX<=1; ++offsetX) {
+            for (int offsetY=-1; offsetY<=1; ++offsetY) {
+                if (outBounds(offsetX+x, offsetY+y))continue;
+                if (field[offsetY + y][offsetX + x].getInner() == Type.BOMB) {
+                    ++i;
+                }
+            }
+        }
+        return i;
+    }
+
+    private void countBombsNearEachCell() {
+        for (int i = 0; i < HEIGHT; ++i) {
+            for (int j = 0; j < WIDTH; ++j) {
+                if (field[i][j].getInner() != Type.BOMB) {
+                    int bombsNear = calcBombsNear(j, i);
+                    if (bombsNear != 0) {
+                        field[i][j].setInner(Type.valueOf("NUMBER_" + calcBombsNear(j, i)));
+                    }
+                }
+            }
+        }
+    }
+
+    public void reveal(int x, int y) {
+        if(outBounds(x,y)) return;
+        if(field[x][y].isOpened()) return;
+        field[x][y].open();
+        if(calcBombsNear(x,y)!=0)return;
+        reveal(x-1,y-1);
+        reveal(x-1,y+1);
+        reveal(x+1,y-1);
+        reveal(x+1,y+1);
+        reveal(x-1,y);
+        reveal(x+1,y);
+        reveal(x,y-1);
+        reveal(x,y+1);
     }
 
     public void generate(int numMines) {
@@ -29,6 +87,8 @@ public class Field {
             field[y][x].setInner(Type.BOMB);
             i++;
         }
+
+        countBombsNearEachCell();
     }
 
     public Cell getCell(int y, int x) {
