@@ -14,7 +14,7 @@ public class Cell {
     public Cell(Type inner, Type cover, boolean isOpened) {
         this.inner = inner;
         this.cover = cover;
-        this.isOpened = false;
+        this.isOpened = isOpened;
     }
 
     public Type getInner() {
@@ -45,9 +45,24 @@ public class Cell {
         return isOpened ? inner : cover;
     }
 
+    public Type changeFlag() {
+        if (!isOpened) {
+            if (cover == Type.FLAG) {
+                cover = Type.CLOSED;
+            } else {
+                cover = Type.FLAG;
+            }
+            return cover;
+        }
+        return inner;
+    }
+
     //Return inner type of cell
     public Type open() {
-        isOpened = true;
-        return inner;
+        if (cover != Type.FLAG) {
+            isOpened = true;
+            return inner;
+        }
+        return cover;
     }
 }

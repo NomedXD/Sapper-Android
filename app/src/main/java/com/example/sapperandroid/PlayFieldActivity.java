@@ -2,9 +2,9 @@ package com.example.sapperandroid;
 
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.commonResource.CommonVars;
@@ -13,8 +13,6 @@ import com.example.gameLogic.Field;
 
 public class PlayFieldActivity extends Activity {
 
-    private Integer difficulty;
-    private ImageAdapter adapter;
     private GridView gridView;
 
     @Override
@@ -29,12 +27,13 @@ public class PlayFieldActivity extends Activity {
 
         gridView = findViewById(R.id.sapperField);
         gridView.setOnItemClickListener(gridviewOnItemClickListener);
+        gridView.setOnItemLongClickListener(gridviewOnItemLongClickListener);
 
-        adapter = new ImageAdapter(this, width/20, height/10);
+        ImageAdapter adapter = new ImageAdapter(this, width / 20, height / 10);
 
         if (CommonVars.field == null) {
             CommonVars.field = new Field();
-            CommonVars.field.generate(25);
+            CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -65,6 +64,16 @@ public class PlayFieldActivity extends Activity {
         int[] relativeCoordinates = getRelativeToDevicePositionCoordinates(position);
         int x = relativeCoordinates[0];
         int y = relativeCoordinates[1];
-        ((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(y, x).open().getImgReference());
+        //((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(y, x).open().getImgReference());
+        CommonVars.field.reveal(x, y);
+        ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+    };
+
+    private final AdapterView.OnItemLongClickListener gridviewOnItemLongClickListener = (parent, v, position, id) -> {
+        int[] relativeCoordinates = getRelativeToDevicePositionCoordinates(position);
+        int x = relativeCoordinates[0];
+        int y = relativeCoordinates[1];
+        ((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(x, y).changeFlag().getImgReference());
+        return true;
     };
 }

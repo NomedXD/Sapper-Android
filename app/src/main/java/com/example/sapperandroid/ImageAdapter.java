@@ -73,16 +73,17 @@ public class ImageAdapter extends BaseAdapter {
         if (!isHorizontal) {
             for (int i = 0; i < field.getHEIGHT(); ++i) {
                 for (int j = 0; j < field.getWIDTH(); ++j) {
-                    imgRefs.add(field.getCell(i, j).getCellType().getImgReference());
+                    imgRefs.add(field.getCell(j, i).getCellType().getImgReference());
                 }
             }
         } else {
             for (int i = field.getWIDTH() - 1; i >= 0; --i) {
                 for (int j = 0; j < field.getHEIGHT(); ++j) {
-                    imgRefs.add(field.getCell(j, i).getCellType().getImgReference());
+                    imgRefs.add(field.getCell(i, j).getCellType().getImgReference());
                 }
             }
         }
         mThumbIds = imgRefs.toArray(mThumbIds);
+        this.notifyDataSetChanged();
     }
 }
