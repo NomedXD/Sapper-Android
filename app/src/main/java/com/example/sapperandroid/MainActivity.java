@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        CommonVars.message = new Message("", R.color.black);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         levelSpinner = findViewById(R.id.levelSpinner);

@@ -14,12 +14,14 @@ public class Field {
     private boolean isGameEnded;
 
     private int numMines;
+    private int cellsRevealed;
 
     public Field() {
         field = new Cell[HEIGHT][WIDTH];
         isDeminingStarted = false;
         isGameEnded = false;
         numMines = 0;
+        cellsRevealed = 0;
     }
 
     private int generateInt(int min, int max) {
@@ -113,6 +115,10 @@ public class Field {
             if (outBounds(x, y)) return;
             if (field[y][x].isOpened()) return;
             field[y][x].open();
+            ++cellsRevealed;
+            if (isDemined()) {
+                isGameEnded = true;
+            }
             if (calcBombsNear(x, y) != 0) return;
             reveal(x - 1, y - 1);
             reveal(x - 1, y + 1);
@@ -142,9 +148,15 @@ public class Field {
         return isGameEnded;
     }
 
+    public boolean isDemined() {
+        return WIDTH * HEIGHT - numMines == cellsRevealed;
+    }
+
     public void generate(int numMines) {
         isDeminingStarted = false;
         isGameEnded = false;
+        this.numMines = numMines;
+        this.cellsRevealed = 0;
         field = new Cell[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; ++i) {
             for (int j = 0; j < WIDTH; ++j) {

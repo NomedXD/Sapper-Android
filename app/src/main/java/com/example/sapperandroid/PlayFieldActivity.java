@@ -8,15 +8,17 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.commonResource.CommonVars;
 import com.example.commonResource.Const;
 import com.example.gameLogic.Type;
-
 
 public class PlayFieldActivity extends Activity {
 
@@ -38,6 +40,7 @@ public class PlayFieldActivity extends Activity {
         backButton = findViewById(R.id.btnBack);
         newButton = findViewById(R.id.btnNew);
         winLabel = findViewById(R.id.win_label);
+        showMessage(CommonVars.message);
         backButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), MainActivity.class);
             finish();
@@ -46,6 +49,7 @@ public class PlayFieldActivity extends Activity {
         newButton.setOnClickListener(view -> {
             CommonVars.field.generate((int) (Const.BOMBS_PER_LEVEL * (CommonVars.difficulty + 1)));
             ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+            winLabel.setVisibility(View.INVISIBLE);
         });
 
         gridView = findViewById(R.id.sapperField);
@@ -53,11 +57,6 @@ public class PlayFieldActivity extends Activity {
         gridView.setOnItemLongClickListener(gridviewOnItemLongClickListener);
 
         ImageAdapter adapter = new ImageAdapter(this, width / Const.HEIGHT, height / Const.WIDTH);
-
-        //if (CommonVars.field == null) {
-        //    CommonVars.field = new Field();
-        //    CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
-        //}
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridView.setNumColumns(width / (width / Const.WIDTH));
@@ -88,6 +87,12 @@ public class PlayFieldActivity extends Activity {
         vibrator.vibrate(VibrationEffect.createOneShot(millisTime, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 
+    private void showMessage(Message message) {
+        winLabel.setVisibility(View.VISIBLE);
+        winLabel.setTextColor(ContextCompat.getColor(getApplicationContext(), message.getColor()));
+        winLabel.setText(message.getText());
+    }
+
     private final GridView.OnItemClickListener gridviewOnItemClickListener = (parent, v, position, id) -> {
         if (CommonVars.field.isGameEnded()) {
             return;
@@ -95,12 +100,18 @@ public class PlayFieldActivity extends Activity {
         int[] relativeCoordinates = getRelativeToDevicePositionCoordinates(position);
         int x = relativeCoordinates[0];
         int y = relativeCoordinates[1];
-        //((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(y, x).open().getImgReference());
         CommonVars.field.reveal(x, y);
         if (CommonVars.field.getCell(x, y).getInner() == Type.BOMB && CommonVars.field.getCell(x, y).getCover() != Type.FLAG) {
             CommonVars.field.revealAll();
             CommonVars.field.getCell(x, y).setInner(Type.BOMB_BOOM);
-            vibrate(800);
+            CommonVars.message = new Message(Const.loseMessage, R.color.endGameColor);
+            showMessage(CommonVars.message);
+            vibrate(Const.winLoseVibroDuration);
+        }
+        if (CommonVars.field.isDemined()) {
+            CommonVars.message = new Message(Const.winMessage, R.color.winColor);
+            showMessage(CommonVars.message);
+            vibrate(Const.winLoseVibroDuration);
         }
         ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     };
@@ -113,7 +124,7 @@ public class PlayFieldActivity extends Activity {
         int x = relativeCoordinates[0];
         int y = relativeCoordinates[1];
         ((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(x, y).changeFlag().getImgReference());
-        vibrate(250);
+        vibrate(Const.flagVibroDuration);
         return true;
     };
 }

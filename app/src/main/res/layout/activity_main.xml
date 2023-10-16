@@ -30,6 +30,7 @@
         android:layout_below="@id/chooseLevelLable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5sp"
+        android:background="@drawable/blue_outline"
         android:backgroundTint="@android:color/transparent"
         android:entries="@array/textsSpinnerVariants"
         android:minHeight="48sp"
