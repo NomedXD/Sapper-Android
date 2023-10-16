@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorPlayField"
     tools:context=".MainActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:fontFamily="@font/frm325x8"
         android:text="@string/textLogo"
         android:textAlignment="center"
-        android:textColor="@color/logoColor"
+        android:textColor="@color/colorLogoLabel"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
         android:layout_below="@id/chooseLevelLable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5sp"
-        android:background="@drawable/blue_outline"
+        android:background="@drawable/custom_spinner"
         android:backgroundTint="@android:color/transparent"
         android:entries="@array/textsSpinnerVariants"
         android:minHeight="48sp"
@@ -48,7 +48,7 @@
         android:layout_marginTop="15sp"
         android:fontFamily="@font/frm325x8"
         android:text="@string/textChooseLevel"
-        android:textColor="@color/logoColor"
+        android:textColor="@color/colorLogoLabel"
         android:textSize="20sp" />
 
     <android.widget.Button
@@ -58,6 +58,7 @@
         android:layout_below="@id/levelSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100sp"
+        android:background="@drawable/custom_play_button"
         android:minWidth="150sp"
         android:text="@string/textPlayButton"
         android:textColor="@color/black" />

@@ -104,12 +104,12 @@ public class PlayFieldActivity extends Activity {
         if (CommonVars.field.getCell(x, y).getInner() == Type.BOMB && CommonVars.field.getCell(x, y).getCover() != Type.FLAG) {
             CommonVars.field.revealAll();
             CommonVars.field.getCell(x, y).setInner(Type.BOMB_BOOM);
-            CommonVars.message = new Message(Const.loseMessage, R.color.endGameColor);
+            CommonVars.message = new Message(Const.loseMessage, R.color.colorEndGameLabel);
             showMessage(CommonVars.message);
             vibrate(Const.winLoseVibroDuration);
         }
         if (CommonVars.field.isDemined()) {
-            CommonVars.message = new Message(Const.winMessage, R.color.winColor);
+            CommonVars.message = new Message(Const.winMessage, R.color.colorLostGameLabel);
             showMessage(CommonVars.message);
             vibrate(Const.winLoseVibroDuration);
         }

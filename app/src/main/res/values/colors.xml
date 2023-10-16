@@ -3,10 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#7F7F7F</color>
-    <color name="colorBackground">#7F7F7F</color>
-    <color name="logoColor">#FFFFFFFF</color>
+    <color name="colorPlayField">#7F7F7F</color>
+    <color name="colorLogoLabel">#FFFFFFFF</color>
     <color name="colorPlayButton">#FFFFFFFF</color>
-    <color name="topBarColor">#D4D4D4</color>
-    <color name="endGameColor">#8a1c25</color>
-    <color name="winColor">#228B22</color>
+    <color name="colorTopBar">#D4D4D4</color>
+    <color name="colorEndGameLabel">#8a1c25</color>
+    <color name="colorLostGameLabel">#228B22</color>
 </resources>

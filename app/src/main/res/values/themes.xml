@@ -3,7 +3,7 @@
     <style name="Base.Theme.SapperAndroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:navigationBarColor">@color/topBarColor</item>
+        <item name="android:navigationBarColor">@color/colorTopBar</item>
     </style>
 
     <style name="Theme.SapperAndroid" parent="Base.Theme.SapperAndroid" />

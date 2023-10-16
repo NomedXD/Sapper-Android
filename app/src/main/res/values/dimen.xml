@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="levelsSpinnerBorderRadius">20sp</dimen>
-    <dimen name="playButtonBorderRadius">20sp</dimen>
+    <dimen name="defaultBorderRadius">15sp</dimen>
 </resources>
