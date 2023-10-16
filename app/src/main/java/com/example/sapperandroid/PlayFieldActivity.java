@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.commonResource.CommonVars;
+import com.example.commonResource.Const;
 import com.example.gameLogic.Type;
 
 
@@ -41,7 +42,7 @@ public class PlayFieldActivity extends Activity {
             startActivity(intent);
         });
         newButton.setOnClickListener(view -> {
-            CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
+            CommonVars.field.generate((int) (Const.BOMBS_PER_LEVEL * (CommonVars.difficulty + 1)));
             ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
         });
 
@@ -49,7 +50,7 @@ public class PlayFieldActivity extends Activity {
         gridView.setOnItemClickListener(gridviewOnItemClickListener);
         gridView.setOnItemLongClickListener(gridviewOnItemLongClickListener);
 
-        ImageAdapter adapter = new ImageAdapter(this, width / 20, height / 10);
+        ImageAdapter adapter = new ImageAdapter(this, width / Const.HEIGHT, height / Const.WIDTH);
 
         //if (CommonVars.field == null) {
         //    CommonVars.field = new Field();
@@ -57,12 +58,12 @@ public class PlayFieldActivity extends Activity {
         //}
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridView.setNumColumns(width / (width / 10));
-            adapter = new ImageAdapter(this, width / 10, height / 20);
+            gridView.setNumColumns(width / (width / Const.WIDTH));
+            adapter = new ImageAdapter(this, width / Const.WIDTH, height / Const.HEIGHT);
             adapter.setField(CommonVars.field, false);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            gridView.setNumColumns(width / (width / 20));
-            adapter = new ImageAdapter(this, width / 20, height / 10);
+            gridView.setNumColumns(width / (width / Const.HEIGHT));
+            adapter = new ImageAdapter(this, width / Const.HEIGHT, height / Const.WIDTH);
             adapter.setField(CommonVars.field, true);
         }
         gridView.setAdapter(adapter);
@@ -71,11 +72,11 @@ public class PlayFieldActivity extends Activity {
     private int[] getRelativeToDevicePositionCoordinates(int position) {
         int[] coordinates = new int[2];
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            coordinates[0] = 10 - 1 - position / 20;
-            coordinates[1] = position % 20;
+            coordinates[0] = Const.WIDTH - 1 - position / Const.HEIGHT;
+            coordinates[1] = position % Const.HEIGHT;
         } else {
-            coordinates[0] = position % 10;
-            coordinates[1] = position / 10;
+            coordinates[0] = position % Const.WIDTH;
+            coordinates[1] = position / Const.WIDTH;
         }
         return coordinates;
     }
@@ -94,9 +95,10 @@ public class PlayFieldActivity extends Activity {
         int y = relativeCoordinates[1];
         //((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(y, x).open().getImgReference());
         CommonVars.field.reveal(x, y);
-        if (CommonVars.field.getCell(x, y).getInner() == Type.BOMB) {
+        if (CommonVars.field.getCell(x, y).getInner() == Type.BOMB && CommonVars.field.getCell(x, y).getCover() != Type.FLAG) {
             CommonVars.field.revealAll();
             CommonVars.field.getCell(x, y).setInner(Type.BOMB_BOOM);
+            vibrate(800);
         }
         ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     };

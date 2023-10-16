@@ -1,12 +1,14 @@
 package com.example.gameLogic;
 
+import com.example.commonResource.Const;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Field {
     private Cell[][] field;
-    private final int WIDTH = 10;
-    private final int HEIGHT = 20;
+    private final int WIDTH = Const.WIDTH;
+    private final int HEIGHT = Const.HEIGHT;
 
     private boolean isDeminingStarted;
     private boolean isGameEnded;

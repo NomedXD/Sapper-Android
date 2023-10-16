@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.commonResource.Const;
 import com.example.gameLogic.Field;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class ImageAdapter extends BaseAdapter {
     private final int imgHeight;
 
     // references to our images
-    public	Integer[] mThumbIds = new Integer[200];
+    public	Integer[] mThumbIds = new Integer[Const.WIDTH * Const.HEIGHT];
     public ImageView imageView;
 
     public ImageAdapter(Context c, int imgWidth, int imgHeight) {
