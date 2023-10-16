@@ -23,18 +23,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
+    <android.widget.Spinner
         android:id="@+id/levelSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/chooseLevelLable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5sp"
-        android:background="@drawable/blue_outline"
         android:backgroundTint="@android:color/transparent"
         android:entries="@array/textsSpinnerVariants"
         android:minHeight="48sp"
-        android:popupBackground="#8659D6"
+        android:popupBackground="@color/white"
         android:prompt="@string/textLogo"
         android:spinnerMode="dropdown"
         android:textAlignment="center" />
@@ -58,9 +57,8 @@
         android:layout_below="@id/levelSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100sp"
-        android:background="@drawable/custom_play_button"
         android:minWidth="150sp"
         android:text="@string/textPlayButton"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
 </RelativeLayout>

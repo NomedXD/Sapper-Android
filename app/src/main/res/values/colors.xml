@@ -3,8 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#7F7F7F</color>
-    <color name="colorBackground">#A4CC75</color>
-    <color name="logoColor">#5620B6</color>
-    <color name="colorPlayButton">#5620B6</color>
+    <color name="colorBackground">#7F7F7F</color>
+    <color name="logoColor">#FFFFFFFF</color>
+    <color name="colorPlayButton">#FFFFFFFF</color>
     <color name="topBarColor">#D4D4D4</color>
 </resources>
