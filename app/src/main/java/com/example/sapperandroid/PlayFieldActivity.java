@@ -1,15 +1,20 @@
 package com.example.sapperandroid;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.commonResource.CommonVars;
+import com.example.gameLogic.Type;
 
 
 public class PlayFieldActivity extends Activity {
@@ -75,20 +80,36 @@ public class PlayFieldActivity extends Activity {
         return coordinates;
     }
 
+    private void vibrate(int millisTime) {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(millisTime, VibrationEffect.DEFAULT_AMPLITUDE));
+    }
+
     private final GridView.OnItemClickListener gridviewOnItemClickListener = (parent, v, position, id) -> {
+        if (CommonVars.field.isGameEnded()) {
+            return;
+        }
         int[] relativeCoordinates = getRelativeToDevicePositionCoordinates(position);
         int x = relativeCoordinates[0];
         int y = relativeCoordinates[1];
         //((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(y, x).open().getImgReference());
         CommonVars.field.reveal(x, y);
+        if (CommonVars.field.getCell(x, y).getInner() == Type.BOMB) {
+            CommonVars.field.revealAll();
+            CommonVars.field.getCell(x, y).setInner(Type.BOMB_BOOM);
+        }
         ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     };
 
     private final AdapterView.OnItemLongClickListener gridviewOnItemLongClickListener = (parent, v, position, id) -> {
+        if (CommonVars.field.isGameEnded()) {
+            return true;
+        }
         int[] relativeCoordinates = getRelativeToDevicePositionCoordinates(position);
         int x = relativeCoordinates[0];
         int y = relativeCoordinates[1];
         ((ImageAdapter)gridView.getAdapter()).setGridCellImg(position, CommonVars.field.getCell(x, y).changeFlag().getImgReference());
+        vibrate(250);
         return true;
     };
 }

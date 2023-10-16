@@ -9,12 +9,14 @@ public class Field {
     private final int HEIGHT = 20;
 
     private boolean isDeminingStarted;
+    private boolean isGameEnded;
 
     private int numMines;
 
     public Field() {
         field = new Cell[HEIGHT][WIDTH];
         isDeminingStarted = false;
+        isGameEnded = false;
         numMines = 0;
     }
 
@@ -99,7 +101,6 @@ public class Field {
     }
 
     public void reveal(int x, int y) {
-
         if (!isDeminingStarted && field[y][x].getInner() == Type.BOMB) {
             //Here logic to move bomb away and preferably to reserve some space near click(currently only move away mine implemented)
             moveAwayBomb(x, y);
@@ -122,8 +123,26 @@ public class Field {
         }
     }
 
+    public void revealAll() {
+        isGameEnded = true;
+        for (int i = 0; i < HEIGHT; ++i) {
+            for (int j = 0; j < WIDTH; ++j) {
+                if (field[i][j].getCellType() == Type.FLAG && field[i][j].getInner() != Type.BOMB) {
+                    field[i][j].setCover(Type.WRONG_FLAG);
+                } else {
+                    field[i][j].open();
+                }
+            }
+        }
+    }
+
+    public boolean isGameEnded() {
+        return isGameEnded;
+    }
+
     public void generate(int numMines) {
         isDeminingStarted = false;
+        isGameEnded = false;
         field = new Cell[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; ++i) {
             for (int j = 0; j < WIDTH; ++j) {
