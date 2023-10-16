@@ -123,6 +123,7 @@ public class Field {
     }
 
     public void generate(int numMines) {
+        isDeminingStarted = false;
         field = new Cell[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; ++i) {
             for (int j = 0; j < WIDTH; ++j) {

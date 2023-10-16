@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.commonResource.CommonVars;
+import com.example.gameLogic.Field;
 
 public class MainActivity extends AppCompatActivity {
     private Spinner levelSpinner;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), PlayFieldActivity.class);
             CommonVars.difficulty = levelSpinner.getSelectedItemId();
+            CommonVars.field = new Field();
+            CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
+            finish();
             startActivity(intent);
         });
     }

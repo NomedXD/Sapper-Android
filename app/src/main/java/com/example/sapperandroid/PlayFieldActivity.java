@@ -1,19 +1,22 @@
 package com.example.sapperandroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.commonResource.CommonVars;
-import com.example.gameLogic.Field;
 
 
 public class PlayFieldActivity extends Activity {
 
     private GridView gridView;
+    private Button backButton;
+    private Button newButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,16 +28,28 @@ public class PlayFieldActivity extends Activity {
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
+        backButton = findViewById(R.id.btnBack);
+        newButton = findViewById(R.id.btnNew);
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplication(), MainActivity.class);
+            finish();
+            startActivity(intent);
+        });
+        newButton.setOnClickListener(view -> {
+            CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
+            ((ImageAdapter)gridView.getAdapter()).setField(CommonVars.field, getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+        });
+
         gridView = findViewById(R.id.sapperField);
         gridView.setOnItemClickListener(gridviewOnItemClickListener);
         gridView.setOnItemLongClickListener(gridviewOnItemLongClickListener);
 
         ImageAdapter adapter = new ImageAdapter(this, width / 20, height / 10);
 
-        if (CommonVars.field == null) {
-            CommonVars.field = new Field();
-            CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
-        }
+        //if (CommonVars.field == null) {
+        //    CommonVars.field = new Field();
+        //    CommonVars.field.generate((int) (25*(CommonVars.difficulty + 1)));
+        //}
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridView.setNumColumns(width / (width / 10));

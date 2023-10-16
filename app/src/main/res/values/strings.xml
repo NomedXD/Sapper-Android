@@ -8,4 +8,6 @@
     </string-array>
     <string name="textChooseLevel">choose level</string>
     <string name="textPlayButton">Play!</string>
+    <string name="backButton">Back</string>
+    <string name="newButton">New</string>
 </resources>
