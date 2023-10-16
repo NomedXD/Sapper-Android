@@ -7,4 +7,5 @@
     <color name="logoColor">#FFFFFFFF</color>
     <color name="colorPlayButton">#FFFFFFFF</color>
     <color name="topBarColor">#D4D4D4</color>
+    <color name="endGameColor">#8a1c25</color>
 </resources>

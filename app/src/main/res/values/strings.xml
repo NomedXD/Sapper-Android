@@ -10,4 +10,5 @@
     <string name="textPlayButton">Play!</string>
     <string name="backButton">Back</string>
     <string name="newButton">New</string>
+    <string name="textWin">You won</string>
 </resources>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -12,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.commonResource.CommonVars;
 import com.example.commonResource.Const;
@@ -23,6 +23,7 @@ public class PlayFieldActivity extends Activity {
     private GridView gridView;
     private Button backButton;
     private Button newButton;
+    private TextView winLabel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class PlayFieldActivity extends Activity {
 
         backButton = findViewById(R.id.btnBack);
         newButton = findViewById(R.id.btnNew);
+        winLabel = findViewById(R.id.win_label);
         backButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplication(), MainActivity.class);
             finish();
