@@ -33,19 +33,6 @@ public class Field {
     }
 
     private int calcBombsNear(int x, int y) {
-        /*
-        if (outBounds(x, y)) return 0;
-        int result = 0;
-        for (int i = y - 1; i <= y + 1; ++i) {
-            for (int j = x - 1; j <= x + 1; ++j) {
-                    if (outBounds(j, i) || i == y && j == x) continue;
-                    if (field[i][j].getInner() == Type.BOMB) {
-                        ++result;
-                }
-            }
-        }
-        return result;
-        */
         if (outBounds(x, y)) return 0;
         int i = 0;
         for (int offsetX = -1; offsetX <= 1; ++offsetX) {
@@ -114,8 +101,9 @@ public class Field {
             isDeminingStarted = true;
             if (outBounds(x, y)) return;
             if (field[y][x].isOpened()) return;
-            field[y][x].open();
-            ++cellsRevealed;
+            if (field[y][x].open()) {
+                ++cellsRevealed;
+            }
             if (isDemined()) {
                 isGameEnded = true;
             }

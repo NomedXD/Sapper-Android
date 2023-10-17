@@ -58,11 +58,11 @@ public class Cell {
     }
 
     //Return inner type of cell
-    public Type open() {
+    public boolean open() {
         if (cover != Type.FLAG) {
             isOpened = true;
-            return inner;
+            return true;
         }
-        return cover;
+        return false;
     }
 }
